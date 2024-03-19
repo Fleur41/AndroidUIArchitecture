@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable name="viewModel" type="com.okumu.androiduiarchitecture.MainActivityViewModel"></variable>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tilGuessNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBaseline_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnGuessNumber"
+            android:layout_marginEnd="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtGuessNumber"
+                android:hint="Guess a number(1 - 6)"
+                inputType="number"
+                android:text="@={viewModel.guessedNumber}"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGuessNumber"
+            android:text="PLAY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tilGuessNumber"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your guess is: 2"
+            android:id="@+id/txtGuessNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilGuessNumber"
+            android:layout_marginTop="8dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_orange_dark"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#474646"
+            app:layout_constraintTop_toBottomOf="@id/txtGuessNumber"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/divider"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dice roll was: 2"
+            android:id="@+id/txtDiceRoll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            android:layout_marginTop="8dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_blue_bright"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ROLL DICE"
+            android:id="@+id/btnDiceRoll"
+            app:layout_constraintTop_toBottomOf="@id/txtDiceRoll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pBarDiceRoll"
+            app:layout_constraintBottom_toBottomOf="@id/btnDiceRoll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtSuccess"
+            android:text="You have won this round"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="28sp"
+            app:layout_constraintTop_toBottomOf="@id/pBarDiceRoll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtLost"
+            android:text="You lost! Try again."
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="28sp"
+            app:layout_constraintTop_toBottomOf="@id/txtSuccess"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Score."
+            android:textSize="20sp"
+            android:fontFamily="serif-monospace"
+            android:textStyle="bold|italic"
+            android:id="@+id/txtScore"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18"
+            android:textSize="20sp"
+            android:fontFamily="serif-monospace"
+            android:textStyle="bold|italic"
+            android:id="@+id/txtScoreValue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
