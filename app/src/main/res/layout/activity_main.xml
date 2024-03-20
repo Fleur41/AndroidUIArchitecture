@@ -16,16 +16,16 @@
             android:layout_height="wrap_content"
             android:id="@+id/tilGuessNumber"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBaseline_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnGuessNumber"
             android:layout_marginEnd="8dp">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtGuessNumber"
                 android:hint="Guess a number(1 - 6)"
-                inputType="number"
+                android:inputType="number"
                 android:text="@={viewModel.guessedNumber}"
 
                 />
@@ -39,12 +39,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/tilGuessNumber"
+            android:onClick="@{() -> viewModel.playGame()}"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your guess is: 2"
+            android:text="@{viewModel.userGuess}"
             android:id="@+id/txtGuessNumber"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +69,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dice roll was: 2"
+            android:text="@{viewModel.diceScore}"
             android:id="@+id/txtDiceRoll"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pBarDiceRoll"
+            app:isLoading="@{viewModel.loading}"
             app:layout_constraintBottom_toBottomOf="@id/btnDiceRoll"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +105,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtSuccess"
-            android:text="You have won this round"
+            android:visibility="gone"
+            android:text="You have won this round!"
+            app:hasUserWon="@{viewModel.hasUserWon}"
             android:textColor="@android:color/holo_green_light"
             android:textSize="28sp"
             app:layout_constraintTop_toBottomOf="@id/pBarDiceRoll"
@@ -119,7 +123,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtLost"
+            android:visibility="gone"
             android:text="You lost! Try again."
+            app:hasUserLost="@{!viewModel.hasUserWon}"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="28sp"
             app:layout_constraintTop_toBottomOf="@id/txtSuccess"
@@ -146,7 +152,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="18"
+            android:text="@{viewModel.totalScore.toString()}"
             android:textSize="20sp"
             android:fontFamily="serif-monospace"
             android:textStyle="bold|italic"
