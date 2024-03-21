@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/tilGuessNumber"
-            android:onClick="@{() -> viewModel.playGame()}"
+            android:onClick="@{() -> viewModel.playUser()}"
             />
 
         <TextView
@@ -89,6 +89,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.playDice()}"
             />
 
         <ProgressBar
@@ -125,7 +126,7 @@
             android:id="@+id/txtLost"
             android:visibility="gone"
             android:text="You lost! Try again."
-            app:hasUserLost="@{!viewModel.hasUserWon}"
+            app:hasUserLost="@{viewModel.hasUserWon}"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="28sp"
             app:layout_constraintTop_toBottomOf="@id/txtSuccess"

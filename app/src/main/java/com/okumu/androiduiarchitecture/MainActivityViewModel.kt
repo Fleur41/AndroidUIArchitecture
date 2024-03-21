@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -14,10 +15,17 @@ import kotlin.math.ceil
 
 class MainActivityViewModel : ViewModel() {
     val guessedNumber: MutableLiveData<String> = MutableLiveData("")
-    val userGuess:LiveData<String> = MutableLiveData("Your guess is: ${guessedNumber.value}")
+
+    private val _userGuess: MutableLiveData<Int> = MutableLiveData(0)
+    val userGuess:LiveData<String> = guessedNumber.map {guess ->
+        "Your guess is: $guess"
+    }
+
 
     private val _diceScore: MutableLiveData<Int> = MutableLiveData(0)
-    val diceScore: LiveData<String> = MutableLiveData("Dice roll was: ${_diceScore.value}")
+    val diceScore: LiveData<String> = _diceScore.map {score ->
+        "Dice roll was: $score"
+    }
 
     private val _totalScore: MutableLiveData<Int> = MutableLiveData(0)
     val totalScore: LiveData<Int> = _totalScore
@@ -30,33 +38,47 @@ class MainActivityViewModel : ViewModel() {
 
     //roll dice
     private fun rollDice(): Int{
-        val num = (Math.random() * 6) + 1
+        val num = (Math.random() * 6)
         val rounded = ceil(num)
         return rounded.toInt()
     }
 
+    //play user
+    fun playUser(){
+        //assign new value to user's guess from textfield
+        _userGuess.value = guessedNumber.value?.toInt()
+    }
+
+    //play dice
+    fun playDice(){
+        //roll dice and playGame
+        playGame()
+    }
+
     //play game
-    fun playGame(){
+    private fun playGame(){
         println("Play game has been called")
         //launch background activity to indicate/simulate loading
         viewModelScope.launch {
-            _loading.postValue ( true)
+
+            //Start loading
+            _loading.value =  true
             //show short delay (3s)
             delay(3000)
-            _diceScore.postValue(rollDice())
+            _diceScore.value = (rollDice())
             //check for winning
-            if(guessedNumber.value?.toInt() == _diceScore.value){
+            if(_userGuess.value == _diceScore.value){
                 // user has won
                 val currentScore = _totalScore.value ?: 0
-                _totalScore.postValue(currentScore + 1)
-                _hasUserWon.postValue(true)
+                _totalScore.value = currentScore + 1
+                _hasUserWon.value = true
             } else{
                 //user has lost
-                _hasUserWon.postValue(false)
+                _hasUserWon.value = false
             }
 
             //stop loading
-            _loading.postValue(false)
+            _loading.value = false
         }
     }
 }
@@ -74,10 +96,10 @@ fun TextView.bindHasWon(won: Boolean?){
 }
 
 @BindingAdapter("hasUserLost")
-fun TextView.bindHasLost(lost: Boolean?){
-    lost?.let{ hasLost ->
-        if(hasLost){
-            visibility = View.VISIBLE
+fun TextView.bindHasLost(won: Boolean?){
+    won?.let{ hasWon ->
+        visibility = if(!hasWon){
+            View.VISIBLE
         } else{
             View.GONE
         }
