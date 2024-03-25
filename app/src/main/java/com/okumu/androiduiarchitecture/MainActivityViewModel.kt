@@ -46,7 +46,19 @@ class MainActivityViewModel : ViewModel() {
     //play user
     fun playUser(){
         //assign new value to user's guess from textfield
-        _userGuess.value = guessedNumber.value?.toInt()
+        //_userGuess.value = guessedNumber.value?.toInt()
+        val guessString = guessedNumber.value
+        if (!guessString.isNullOrEmpty()) {
+            val guess = guessString.toIntOrNull()
+            if (guess != null && guess in 1..6) {
+                _userGuess.value = guess
+                playGame(context)
+            } else {
+                showToast(context, "Please enter a number between 1 and 6")
+            }
+        } else {
+            showToast(context, "Please enter a number")
+        }
     }
 
     //play dice
@@ -80,6 +92,11 @@ class MainActivityViewModel : ViewModel() {
             //stop loading
             _loading.value = false
         }
+    }
+
+    //Function to display a toast message
+    private  fun showToast(context: Context, message: String){
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
 
